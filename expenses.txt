@@ -1,0 +1,2 @@
+2024-02-01,Cat was hungry,Food,10.5
+2025-01-03,Testing,Testing,99.2
