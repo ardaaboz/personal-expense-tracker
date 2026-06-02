@@ -1,95 +1,53 @@
-# Personal Expense Tracker Assignment
+# Personal Expense Tracker
 
-## Overview
-In this project, you will build a console-based expense tracking application in Java. The program will allow users to record, view, search, and delete expense entries. You will practice:
+A console-based expense tracker written in Java. It lets you record expenses,
+view them, search them, and delete them, with all data persisted to a local
+text file so entries survive between runs.
 
-- Reading from and writing to files
-- Handling exceptions
-- Using basic Java concepts such as:
-    - Classes and objects
-    - Loops and conditional statements
-    - Collections
+## What it does
 
-## Requirements
+A text menu drives the program:
 
-### 1. Expense Model (POJO)
-Create an `Expense` class with at least the following fields:
+1. Add an expense (date, description, category, amount)
+2. View all expenses
+3. Search expenses by date or category
+4. Delete an expense by index
+5. Exit
 
-- **Date**: Use a `String` or `java.time.LocalDate` for the expense date.
-- **Description**: A brief text to describe the expense.
-- **Amount**: A `double` representing the cost.
-- **Category**: Such as Food, Transportation, Entertainment, etc.
+On startup the program loads any existing entries from `expenses.txt`. Each
+change is written back to the file, so the data is always persisted.
 
-Include:
-- Getters and setters
-- A constructor
-- An overridden `toString()` method for pretty-printing the details
+## Design
 
----
+| Class | Responsibility |
+|-------|----------------|
+| `Expense` | Model for a single expense: date, description, category, amount, with a formatted `toString()` |
+| `ExpenseManager` | Business logic: add, display, search, and delete expenses, plus reading and writing the data file |
+| `UserInterface` | Entry point; loads the file, then runs the interactive menu loop |
 
-### 2. User Interface (Console Menu)
-When your program starts, present the user with a menu such as:
+## Concepts demonstrated
 
-- Add an expense
-- View all expenses
-- Search expenses
-- Delete an expense
-- Exit
+- File I/O with `BufferedReader` and `BufferedWriter` over a CSV-style format
+- Exception handling for missing files, I/O errors, and malformed lines
+- Collections (`ArrayList`) for in-memory storage
+- Case-insensitive category search and exact-match date search
+- Input validation and menu-driven control flow
 
-Additional requirements:
+## Data format
 
-- Validate user input to ensure proper choices are made.
-- Use loops to return to the main menu after completing an action.
+Expenses are stored one per line as comma-separated values:
 
----
+```
+date,description,category,amount
+```
 
-### 3. Adding an Expense
-- Prompt the user to enter the details for an expense.
-- Instantiate an `Expense` object with user input.
-- Add the new expense to a collection (e.g., `ArrayList<Expense>`).
+Malformed lines are skipped on load rather than crashing the program.
 
----
+## Running it
 
-### 4. Viewing Expenses
-- Display all saved expenses in a user-friendly format.
-- Format the output for easy reading (e.g., columns for Date, Description, Amount, Category).
-- If no expenses exist, print an appropriate message.
+```bash
+javac src/*.java -d out
+java -cp out UserInterface
+```
 
----
-
-### 5. Searching for Expenses
-- Ask the user if they want to search by **date** or **category**.
-- Accept the search query and display all expenses that match.
-
-Search details:
-- For **date**: Allow an exact match.
-- For **category**: Ignore case (e.g., “food” matches “Food”).
-- Handle cases where no records match.
-
----
-
-### 6. Deleting an Expense
-- List expenses with an index number.
-- Ask the user which expense (by index) they would like to delete.
-- Remove the selected expense from the collection.
-- Handle invalid inputs (e.g., index out of bounds).
-
----
-
-### 7. File I/O: Persistence
-
-#### Saving Data
-- When the program exits (or after every change), write the list of expenses to a plain text file (or CSV file).
-- Use a simple format: each line represents one expense.
-
-#### Loading Data
-- At program startup, check if the file exists.
-- If it does, read from the file and populate your expense collection.
-
-Use:
-- `BufferedReader` and `BufferedWriter`  
-  or
-- `Scanner` and `PrintWriter`
-
-Also:
-- Use `try-catch` blocks to manage potential file-related errors (e.g., file not found, I/O errors).
+Coursework project, Valencia College (Computer Programming and Analysis).
